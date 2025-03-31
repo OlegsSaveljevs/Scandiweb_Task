@@ -1,9 +1,10 @@
 <?php
 /**
- * @category ScandiwebSamplePatch
- * @package Scandiweb\ScandiwebTest\Setup\Patch\Data
+ * @category Scandiweb
+ * @package Scandiweb\ScandiwebTest
  * @author Olegs Saveljevs <olegs.saveljevs@scandiweb.com>
- * @copyright Copyright (c) 2024 Scandiweb, Ltd (https://scandiweb.com)
+ * @copyright Copyright (c) 2025 Scandiweb, Ltd (https://scandiweb.com)
+ * @license   http://opensource.org/licenses/OSL-3.0 The Open Software License 3.0 (OSL-3.0)
  */
 
 declare(strict_types=1);
@@ -31,7 +32,6 @@ use Magento\InventoryApi\Api\Data\SourceItemInterfaceFactory;
 
 class SimpleProductCreation implements DataPatchInterface
 {
-
     protected const SAMPLE_SKU = 'scandiweb-sample-product';
     protected const SAMPLE_CATEGORY_IDS = [3, 4];
 
@@ -47,46 +47,18 @@ class SimpleProductCreation implements DataPatchInterface
      * @param CategoryLinkManagementInterface $categoryLink
      */
     public function __construct(
-        /**
-         * @var ProductInterfaceFactory
-         */
         protected ProductInterfaceFactory $productInterfaceFactory,
-        /**
-         * @var ProductRepositoryInterface
-         */
         protected ProductRepositoryInterface $productRepository,
-        /**
-         * @var CategoryLinkManagementInterface
-         */
         protected CategoryLinkManagementInterface $categoryLinkManagement,
-        /**
-         * @var State
-         */
         protected State $state,
-        /**
-         * @var EavSetup
-         */
         protected EavSetup $eavSetup,
-        /**
-         * @var SourceItemInterfaceFactory
-         */
         protected SourceItemInterfaceFactory $sourceItemFactory,
-        /**
-         * @var SourceItemsSaveInterface
-         */
         protected SourceItemsSaveInterface $sourceItemsSaveInterface,
-        /**
-         * @var CategoryLinkManagementInterface
-         */
         protected categoryLinkManagementInterface $categoryLink,
-        /**
-         * @var array
-         */
         protected array $sourceItems = [],
 
     ) {
     }
-
     /**
      * @return void
      * @throws Exception
@@ -109,9 +81,11 @@ class SimpleProductCreation implements DataPatchInterface
     public function execute(): void
     {
         $product = $this->productInterfaceFactory->create();
+
         if ($product->getIdBySku(self::SAMPLE_SKU)) {
             return;
         }
+
         $attributeSetId = $this->eavSetup->getAttributeSetId(Product::ENTITY, 'Default');
         $product->setSku(self::SAMPLE_SKU)
             ->setAttributeSetId($attributeSetId)
